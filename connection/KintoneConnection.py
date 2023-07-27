@@ -117,3 +117,27 @@ class KintoneConnction:
         else:
             res_dict = json.load(response)
             return res_dict
+    def delete_records(self, app_id, record_ids ):
+        uri = f'https://{self.__DOMAIN}.cybozu.com/k/v1/records.json'
+
+        body = {
+            "app": app_id,
+            "ids": record_ids
+        }
+
+        req = urllib.request.Request(
+            url = uri,
+            data = json.dumps(body).encode(),
+            headers = self.__headers_password,
+            method = "DELETE"
+        )
+
+        try:
+            response = urllib.request.urlopen( req )
+        except urllib.error.URLError as e:
+            print( e )
+            return {'record':'Nodata'}
+
+        else:
+            res_dict = json.load(response)
+            return res_dict
